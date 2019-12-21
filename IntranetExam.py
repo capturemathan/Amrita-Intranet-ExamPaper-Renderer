@@ -52,18 +52,15 @@ while(cont==1):
 	sec_soup=BeautifulSoup(sec_page.content,'html.parser')
 	u=sec_soup.findAll("ul")
 
-
 	if ch<=6:
 		sec_li=u[3].findAll("li")
 	else:
 		sec_li=u[2].findAll("li")
 
-
 	p=PrettyTable(["S.No","Title"])
 	for j in range(len(sec_li)):
 		p.add_row([j+1,sec_li[j].a.text.strip()])
 	print(p)
-
 
 	ch3=int(input("Enter your choice "))
 	while((ch3>len(sec_li)) or (ch3<0)):
@@ -88,7 +85,6 @@ while(cont==1):
 	fourth_page=requests.get(url)
 	fourth_soup=BeautifulSoup(fourth_page.content,'html.parser')
 	u4_div=fourth_soup.findAll("div",class_="file-metadata")
-
 
 	v=PrettyTable(["S.No","Subjects"])
 	u4_temp=[]
@@ -116,8 +112,11 @@ while(cont==1):
 	print("Give me just a minute :)")
 	if(download==1):
 		response = requests.get(url_last)
-		save=url_last[71:79]
-		save+=".pdf"
+		spliturl=url_last.split("/")
+		namewithext=spliturl[-1]
+		name_reduced=namewithext.split("?")
+		save=name_reduced[0]
+		#save+=".pdf"
 		with open(save,'wb') as f:
 			f.write(response.content)
 		print("The Qp is waiting for you at "+os.getcwd())
@@ -125,3 +124,4 @@ while(cont==1):
 		print("The Qp is waiting for you :)")
 		webbrowser.open_new(url_last)
 	cont=int(input("Enter 1 to view another Qp or 0 to exit "))
+	
